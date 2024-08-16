@@ -1,3 +1,5 @@
-flask==1.0.2
-pyYAML==5.1
-packaging==19.0
+Flask
+PyYAML
+packaging
+Flask-HTTPAuth
+Flask-Moment
