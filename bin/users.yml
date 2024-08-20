@@ -1,4 +1,2 @@
 admin:
-  'Abc@13579'
-dtung.vu:
-  'Abc@13579'
+  'scrypt:32768:8:1$3M8yxIZrfnRNvMbT$9b62fac4965bc450d6580b9dd6bec7771c1ef78248d0c0be368ec4e92768d4df58274a43a5cd96fba255c46ed923e2eec19ab80955ea589964367491f7aad676'

@@ -5,8 +5,7 @@ from datetime import datetime
 from collections import OrderedDict
 
 import yaml
-from flask import (Flask, flash, redirect, render_template, request,
-                   send_file, url_for)
+from flask import (Flask, flash, redirect, render_template, send_file, url_for, request)
 from flask_moment import Moment
 from packaging import version
 from flask_httpauth import HTTPBasicAuth
@@ -30,6 +29,7 @@ PLATFORMS_YAML = app.config['UPLOAD_FOLDER'] + '/platforms.yml'
 MACS_YAML = app.config['UPLOAD_FOLDER'] + '/macs.yml'
 USERS_YAML = app.config['UPLOAD_FOLDER'] + '/users.yml'
 
+ALLOW_MAC_WHITELIST = False
 
 auth = HTTPBasicAuth()
 
@@ -37,6 +37,7 @@ users = {}
 
 @auth.verify_password
 def verify_password(username, password):
+    print(password)
     if not users:
         return True
     if username in users and \
@@ -82,8 +83,8 @@ def load_users():
     except:
         print('Warning: Users file not found, no authentication.')
     if users:
-        for user in users: # generate hash from the plaintext password
-            users[user] = generate_password_hash(users[user])
+        # for user in users: # generate hash from the plaintext password
+        #     users[user] = generate_password_hash(users[user])
         print(users)
     if not users:
         users = dict()
@@ -179,7 +180,7 @@ def update():
         __dev = __dev.lower()
         if platforms:
             if __dev in platforms.keys():
-                if __mac in platforms[__dev]['whitelist']:
+                if not ALLOW_MAC_WHITELIST or __mac in platforms[__dev]['whitelist']:
                     if not platforms[__dev]['version']:
                         log_event("ERROR: No update available.")
                         return 'No update available.', 400
@@ -203,6 +204,7 @@ def update():
             return 'Error: Create platforms before updating.', 500
     log_event("ERROR: Invalid parameters.")
     return 'Error: Invalid parameters.', 400
+
 
 @app.route('/upload', methods=['GET', 'POST'])
 @auth.login_required
