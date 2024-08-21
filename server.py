@@ -180,7 +180,10 @@ def update():
         __dev = __dev.lower()
         if platforms:
             if __dev in platforms.keys():
-                if not ALLOW_MAC_WHITELIST or __mac in platforms[__dev]['whitelist']:
+                if ALLOW_MAC_WHITELIST and __mac not in platforms[__dev]['whitelist']:
+                    log_event("ERROR: Device not whitelisted.")
+                    return 'Error: Device not whitelisted.', 400
+                else:
                     if not platforms[__dev]['version']:
                         log_event("ERROR: No update available.")
                         return 'No update available.', 400
@@ -193,9 +196,6 @@ def update():
                     else:
                         log_event("INFO: No update needed.")
                         return 'No update needed.', 304
-                else:
-                    log_event("ERROR: Device not whitelisted.")
-                    return 'Error: Device not whitelisted.', 400
             else:
                 log_event("ERROR: Unknown platform.")
                 return 'Error: Unknown platform.', 400
