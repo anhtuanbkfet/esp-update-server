@@ -1,1 +1,12 @@
-{}
+gtil2_sun:
+  downloads: 1
+  file: gtil2_sun_0_1_27.bin
+  uploaded: '2024-10-12'
+  version: 0.1.27
+  whitelist: null
+mq_charger:
+  downloads: 17
+  file: mq_charger_0_1_29.bin
+  uploaded: '2024-09-08'
+  version: 0.1.29
+  whitelist: null
